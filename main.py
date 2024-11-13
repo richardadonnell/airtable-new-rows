@@ -1,11 +1,13 @@
-import os
-import time
-import requests
-from datetime import datetime
 import json
-from dotenv import load_dotenv
+import os
 import pickle
+import time
+from datetime import datetime
 from pathlib import Path
+
+import requests
+from dotenv import load_dotenv
+
 
 class AirtableWatcher:
     def __init__(self, base_id, table_id, api_key, webhook_url):
@@ -45,9 +47,9 @@ class AirtableWatcher:
 
     def get_records(self):
         try:
-            # Modified filter formula to properly check for empty Score
+            # Modified filter formula to check for empty Score AND empty Proposal
             params = {
-                'filterByFormula': '{Score} = ""',  # Changed from BLANK({Score})
+                'filterByFormula': 'AND({Score} = "", {Proposal} = "")',
                 'sort[0][field]': 'Created',
                 'sort[0][direction]': 'desc'
             }
